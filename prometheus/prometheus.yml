@@ -9,7 +9,7 @@ scrape_configs:
 
   - job_name: "clickhouse"
     static_configs:
-      - targets: ["${SERVER_IP}:9363"]  # замените "localhost" на IP-адрес сервера, если ClickHouse не на локальной машине
+      - targets: ["10.23.4.203:9363"]  # замените "localhost" на IP-адрес сервера, если ClickHouse не на локальной машине
     metrics_path: "/metrics"  # путь, который был настроен для метрик
 #    scheme: http  # используйте https, если настроен SSL/TLS
     honor_labels: true
@@ -23,22 +23,22 @@ scrape_configs:
   
   - job_name: 'local_python_scripts'
     static_configs:
-      - targets: ["${SERVER_IP}:8003"]  # Указываем контейнер и порт для сбора метрик
+      - targets: ["10.23.4.203:8003"]  # Указываем контейнер и порт для сбора метрик
     metrics_path: "/metrics"
     scheme: http
     honor_labels: true
 
   - job_name: "cadvisor"
     static_configs:
-      - targets: ["${SERVER_IP}:8080"]
+      - targets: ["10.23.4.203:8080"]
 
   - job_name: "node-exporter"
     static_configs:
-      - targets: ["${SERVER_IP}:9100"]
+      - targets: ["10.23.4.203:9100"]
   
   - job_name: "nifi_metrics"
     static_configs:
-      - targets: ["${SERVER_IP}:9092"]
+      - targets: ["10.23.4.203:9092"]
     metrics_path: "/metrics"
     scheme: http
     honor_labels: true
