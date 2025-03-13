@@ -1277,8 +1277,7 @@
   "schemaVersion": 39,
   "tags": [
     "clickhouse",
-    "db",
-    "prometheus"
+    "db"
   ],
   "templating": {
     "list": []
