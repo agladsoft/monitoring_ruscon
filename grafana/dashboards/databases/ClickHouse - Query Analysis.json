@@ -92,7 +92,7 @@
     {
       "datasource": {
         "type": "grafana-clickhouse-datasource",
-        "uid": "${datasource}"
+        "uid": "ClickHouse"
       },
       "fieldConfig": {
         "defaults": {
@@ -146,7 +146,7 @@
           },
           "datasource": {
             "type": "grafana-clickhouse-datasource",
-            "uid": "${DS_GRAFANA-CLICKHOUSE-DATASOURCE}"
+            "uid": "ClickHouse"
           },
           "format": 1,
           "meta": {
@@ -166,7 +166,7 @@
     {
       "datasource": {
         "type": "grafana-clickhouse-datasource",
-        "uid": "${datasource}"
+        "uid": "ClickHouse"
       },
       "fieldConfig": {
         "defaults": {
@@ -233,7 +233,7 @@
           },
           "datasource": {
             "type": "grafana-clickhouse-datasource",
-            "uid": "${DS_GRAFANA-CLICKHOUSE-DATASOURCE}"
+            "uid": "ClickHouse"
           },
           "format": 1,
           "meta": {
@@ -253,7 +253,7 @@
     {
       "datasource": {
         "type": "grafana-clickhouse-datasource",
-        "uid": "${datasource}"
+        "uid": "ClickHouse"
       },
       "fieldConfig": {
         "defaults": {
@@ -326,7 +326,7 @@
           },
           "datasource": {
             "type": "grafana-clickhouse-datasource",
-            "uid": "${DS_GRAFANA-CLICKHOUSE-DATASOURCE}"
+            "uid": "ClickHouse"
           },
           "format": 1,
           "meta": {
@@ -347,7 +347,7 @@
     {
       "datasource": {
         "type": "grafana-clickhouse-datasource",
-        "uid": "${datasource}"
+        "uid": "ClickHouse"
       },
       "fieldConfig": {
         "defaults": {
@@ -401,7 +401,7 @@
           },
           "datasource": {
             "type": "grafana-clickhouse-datasource",
-            "uid": "${DS_GRAFANA-CLICKHOUSE-DATASOURCE}"
+            "uid": "ClickHouse"
           },
           "format": 1,
           "meta": {
@@ -422,7 +422,7 @@
     {
       "datasource": {
         "type": "grafana-clickhouse-datasource",
-        "uid": "${datasource}"
+        "uid": "ClickHouse"
       },
       "fieldConfig": {
         "defaults": {
@@ -489,7 +489,7 @@
           },
           "datasource": {
             "type": "grafana-clickhouse-datasource",
-            "uid": "${DS_GRAFANA-CLICKHOUSE-DATASOURCE}"
+            "uid": "ClickHouse"
           },
           "format": 1,
           "meta": {
@@ -509,7 +509,7 @@
     {
       "datasource": {
         "type": "grafana-clickhouse-datasource",
-        "uid": "${datasource}"
+        "uid": "ClickHouse"
       },
       "fieldConfig": {
         "defaults": {
@@ -593,7 +593,7 @@
           },
           "datasource": {
             "type": "grafana-clickhouse-datasource",
-            "uid": "${DS_GRAFANA-CLICKHOUSE-DATASOURCE}"
+            "uid": "ClickHouse"
           },
           "format": 2,
           "meta": {
@@ -622,7 +622,7 @@
     {
       "datasource": {
         "type": "grafana-clickhouse-datasource",
-        "uid": "${datasource}"
+        "uid": "ClickHouse"
       },
       "fieldConfig": {
         "defaults": {
@@ -706,7 +706,7 @@
           },
           "datasource": {
             "type": "grafana-clickhouse-datasource",
-            "uid": "${DS_GRAFANA-CLICKHOUSE-DATASOURCE}"
+            "uid": "ClickHouse"
           },
           "format": 2,
           "meta": {
@@ -735,7 +735,7 @@
     {
       "datasource": {
         "type": "grafana-clickhouse-datasource",
-        "uid": "${datasource}"
+        "uid": "ClickHouse"
       },
       "fieldConfig": {
         "defaults": {
@@ -810,7 +810,7 @@
           },
           "datasource": {
             "type": "grafana-clickhouse-datasource",
-            "uid": "${DS_GRAFANA-CLICKHOUSE-DATASOURCE}"
+            "uid": "ClickHouse"
           },
           "format": 2,
           "meta": {
@@ -839,7 +839,7 @@
     {
       "datasource": {
         "type": "grafana-clickhouse-datasource",
-        "uid": "${datasource}"
+        "uid": "ClickHouse"
       },
       "fieldConfig": {
         "defaults": {
@@ -927,7 +927,7 @@
           },
           "datasource": {
             "type": "grafana-clickhouse-datasource",
-            "uid": "${DS_GRAFANA-CLICKHOUSE-DATASOURCE}"
+            "uid": "ClickHouse"
           },
           "format": 2,
           "meta": {
@@ -948,7 +948,7 @@
     {
       "datasource": {
         "type": "grafana-clickhouse-datasource",
-        "uid": "${datasource}"
+        "uid": "ClickHouse"
       },
       "fieldConfig": {
         "defaults": {
@@ -1056,7 +1056,7 @@
         {
           "datasource": {
             "type": "grafana-clickhouse-datasource",
-            "uid": "${DS_GRAFANA-CLICKHOUSE-DATASOURCE}"
+            "uid": "ClickHouse"
           },
           "format": 1,
           "meta": {
@@ -1077,7 +1077,7 @@
     {
       "datasource": {
         "type": "grafana-clickhouse-datasource",
-        "uid": "${datasource}"
+        "uid": "ClickHouse"
       },
       "fieldConfig": {
         "defaults": {
@@ -1420,7 +1420,7 @@
           },
           "datasource": {
             "type": "grafana-clickhouse-datasource",
-            "uid": "${DS_GRAFANA-CLICKHOUSE-DATASOURCE}"
+            "uid": "ClickHouse"
           },
           "format": 1,
           "meta": {
@@ -1508,7 +1508,7 @@
         "current": {},
         "datasource": {
           "type": "grafana-clickhouse-datasource",
-          "uid": "${datasource}"
+          "uid": "ClickHouse"
         },
         "definition": "SELECT DISTINCT(query_kind) as query_kind FROM system.query_log WHERE query_kind != ''",
         "description": "",
@@ -1529,7 +1529,7 @@
         "current": {},
         "datasource": {
           "type": "grafana-clickhouse-datasource",
-          "uid": "${DS_GRAFANA-CLICKHOUSE-DATASOURCE}"
+          "uid": "ClickHouse"
         },
         "definition": "SELECT type FROM system.query_log GROUP BY type",
         "hide": 0,
@@ -1549,7 +1549,7 @@
         "current": {},
         "datasource": {
           "type": "grafana-clickhouse-datasource",
-          "uid": "${datasource}"
+          "uid": "ClickHouse"
         },
         "definition": "SELECT DISTINCT(initial_user) FROM system.query_log WHERE initial_user != '' LIMIT 100",
         "hide": 0,
