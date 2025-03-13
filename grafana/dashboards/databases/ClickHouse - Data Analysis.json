@@ -2265,7 +2265,10 @@
     }
   ],
   "schemaVersion": 39,
-  "tags": [],
+  "tags": [
+    "clickhouse",
+    "db"
+  ],
   "templating": {
     "list": [
       {
