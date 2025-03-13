@@ -539,7 +539,6 @@
   "schemaVersion": 39,
   "tags": [
     "prometheus",
-    "grafana",
     "python"
   ],
   "templating": {
