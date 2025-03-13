@@ -11,7 +11,13 @@ scrape_configs:
     static_configs:
       - targets: ["10.23.4.203:9363"]  # замените "localhost" на IP-адрес сервера, если ClickHouse не на локальной машине
     metrics_path: "/metrics"  # путь, который был настроен для метрик
-#    scheme: http  # используйте https, если настроен SSL/TLS
+    honor_labels: true
+
+  - job_name: "rabbitmq"
+    static_configs:
+      - targets: ["10.23.4.203:15692"]
+    metrics_path: "/metrics"
+    scheme: http
     honor_labels: true
 
   - job_name: 'tracking'
