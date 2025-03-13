@@ -1,0 +1,5626 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_GRAFANA-CLICKHOUSE-DATASOURCE",
+      "label": "grafana-clickhouse-datasource",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "grafana-clickhouse-datasource",
+      "pluginName": "ClickHouse"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "11.1.1"
+    },
+    {
+      "type": "datasource",
+      "id": "grafana-clickhouse-datasource",
+      "name": "ClickHouse",
+      "version": "4.4.0"
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Время указано во временной зоне сервера (для получения Московского времени нужно отнять 3 часа)",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 0,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'terminals_capacity'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица terminals_capacity последние обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 8,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'terminals_capacity' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "terminals_capacity дата и время последнего обновления",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 12,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'completed_repackages_report'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица completed_repackages_report последние обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 20,
+        "y": 0
+      },
+      "id": 26,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'completed_repackages_report' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "completed_repackages_report дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 0,
+        "y": 10
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'daily_summary'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица daily_summary последние обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 8,
+        "y": 10
+      },
+      "id": 27,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'daily_summary' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "daily_summary дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 12,
+        "y": 10
+      },
+      "id": 5,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'marginality_orders_by_act_date'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица marginality_orders_by_act_date последние обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 20,
+        "y": 10
+      },
+      "id": 28,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'marginality_orders_by_act_date' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "marginality_orders_by_act_date дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 0,
+        "y": 20
+      },
+      "id": 6,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'accounts'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица accounts последние обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 8,
+        "y": 20
+      },
+      "id": 29,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'accounts' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "accounts дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 12,
+        "y": 20
+      },
+      "id": 7,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'natural_indicators_by_contracts_segments'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица natural_indicators_by_contracts_segments последние обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 20,
+        "y": 20
+      },
+      "id": 30,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'natural_indicators_by_contracts_segments' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "natural_indicators_by_contracts_segments дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 0,
+        "y": 30
+      },
+      "id": 8,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'natural_indicators_by_transaction_fact_date'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица natural_indicators_by_transaction_fact_date обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 8,
+        "y": 30
+      },
+      "id": 34,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'natural_indicators_by_transaction_fact_date' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "natural_indicators_by_transaction_fact_date дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 12,
+        "y": 30
+      },
+      "id": 11,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'orders_marginality_report'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица orders_marginality_report обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 20,
+        "y": 30
+      },
+      "id": 32,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'orders_marginality_report' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "orders_marginality_report дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 0,
+        "y": 40
+      },
+      "id": 10,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'datacore_freight'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица datacore_freight обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 8,
+        "y": 40
+      },
+      "id": 33,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'datacore_freight' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "datacore_freight дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 12,
+        "y": 40
+      },
+      "id": 9,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'rzhd_by_operations_report'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица rzhd_by_operations_report обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 20,
+        "y": 40
+      },
+      "id": 31,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'rzhd_by_operations_report' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "rzhd_by_operations_report дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 0,
+        "y": 50
+      },
+      "id": 12,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'consignments'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица consignments обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 8,
+        "y": 50
+      },
+      "id": 35,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'consignments' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "consignments дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 12,
+        "y": 50
+      },
+      "id": 13,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'accounting_documents_requests'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица accounting_documents_requests обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 20,
+        "y": 50
+      },
+      "id": 36,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'accounting_documents_requests' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "accounting_documents_requests дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 0,
+        "y": 60
+      },
+      "id": 14,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'natural_indicators_of_railway_reception_and_dispatch'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица natural_indicators_of_railway_reception_and_dispatch обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 8,
+        "y": 60
+      },
+      "id": 37,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'natural_indicators_of_railway_reception_and_dispatch' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "natural_indicators_of_railway_reception_and_dispatch дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 12,
+        "y": 60
+      },
+      "id": 15,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'auto_pickup_general_report'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица auto_pickup_general_report обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 20,
+        "y": 60
+      },
+      "id": 38,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'auto_pickup_general_report' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "auto_pickup_general_report дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 0,
+        "y": 70
+      },
+      "id": 16,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'autovisits'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица autovisits обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 8,
+        "y": 70
+      },
+      "id": 43,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'autovisits' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "autovisits дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 12,
+        "y": 70
+      },
+      "id": 17,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'freight_rates'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица freight_rates обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 20,
+        "y": 70
+      },
+      "id": 39,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'freight_rates' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "freight_rates дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 0,
+        "y": 80
+      },
+      "id": 18,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'reference_counterparties'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица reference_counterparties обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 8,
+        "y": 80
+      },
+      "id": 42,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'reference_counterparties' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "reference_counterparties дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 12,
+        "y": 80
+      },
+      "id": 19,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'export_bookings'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица export_bookings обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 20,
+        "y": 80
+      },
+      "id": 40,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'export_bookings' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "export_bookings дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 0,
+        "y": 90
+      },
+      "id": 20,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'import_bookings'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица import_bookings обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 8,
+        "y": 90
+      },
+      "id": 41,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'import_bookings' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "import_bookings дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 12,
+        "y": 90
+      },
+      "id": 21,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'transport_units'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица transport_units обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 20,
+        "y": 90
+      },
+      "id": 44,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'transport_units' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "transport_units дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 0,
+        "y": 100
+      },
+      "id": 22,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'orders_report'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица orders_report обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 8,
+        "y": 100
+      },
+      "id": 45,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'orders_report' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "orders_report дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 12,
+        "y": 100
+      },
+      "id": 23,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'ruscon_products'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица ruscon_products обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 20,
+        "y": 100
+      },
+      "id": 46,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'ruscon_products' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "ruscon_products дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 0,
+        "y": 110
+      },
+      "id": 24,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'reference_locations'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица reference_locations обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 8,
+        "y": 110
+      },
+      "id": 47,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'reference_locations' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "reference_locations дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 8,
+        "x": 12,
+        "y": 110
+      },
+      "id": 25,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "builderOptions": {
+            "aggregates": [],
+            "columns": [
+              {
+                "alias": "key_id",
+                "custom": false,
+                "name": "key_id",
+                "type": "String"
+              },
+              {
+                "alias": "date",
+                "custom": false,
+                "name": "date",
+                "type": "Nullable(Date32)"
+              }
+            ],
+            "database": "DataCore",
+            "filters": [],
+            "groupBy": [],
+            "limit": 1000,
+            "meta": {},
+            "mode": "list",
+            "orderBy": [
+              {
+                "dir": "DESC",
+                "name": "date"
+              }
+            ],
+            "queryType": "table",
+            "table": "terminals_capacity"
+          },
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "aggregates": [],
+              "columns": [
+                {
+                  "alias": "key_id",
+                  "custom": false,
+                  "name": "key_id",
+                  "type": "String"
+                },
+                {
+                  "alias": "date",
+                  "custom": false,
+                  "name": "date",
+                  "type": "Nullable(Date32)"
+                }
+              ],
+              "database": "DataCore",
+              "filters": [],
+              "groupBy": [],
+              "limit": 1000,
+              "meta": {},
+              "mode": "list",
+              "orderBy": [
+                {
+                  "dir": "DESC",
+                  "name": "date"
+                }
+              ],
+              "queryType": "table",
+              "table": "terminals_capacity"
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT max(date) as update_date,SUM(`count`) as key_id_count\r\nFROM (\r\n\t(SELECT   toDate(x.`datetime`) as `date`, COUNT(x.key_id)  as `count`\r\n\t\tFROM DataCore.rmq_log x\r\n\t\tWHERE x.`table` = 'manager_evaluation'  AND x.is_success = TRUE \r\n\t\tGROUP BY  x.key_id, x.`datetime`)\r\n\t) z_q  \r\nGROUP BY date \r\nORDER BY 1 DESC \r\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "Таблица manager_evaluation обновления",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-clickhouse-datasource",
+        "uid": "ClickHouse"
+      },
+      "description": "Дата и время последнего обновления",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 4,
+        "x": 20,
+        "y": 110
+      },
+      "id": 48,
+      "options": {
+        "cellHeight": "lg",
+        "footer": {
+          "countRows": false,
+          "enablePagination": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-clickhouse-datasource",
+            "uid": "ClickHouse"
+          },
+          "editorType": "sql",
+          "format": 1,
+          "meta": {
+            "builderOptions": {
+              "columns": [],
+              "database": "",
+              "limit": 1000,
+              "mode": "list",
+              "queryType": "table",
+              "table": ""
+            }
+          },
+          "pluginVersion": "4.4.0",
+          "queryType": "table",
+          "rawSql": "SELECT   max(toTimeZone(x.`datetime`,'Europe/Moscow')) as last_update_datetime\r\nFROM DataCore.rmq_log x\r\nWHERE x.`table` = 'manager_evaluation' AND x.is_success = TRUE ;",
+          "refId": "A"
+        }
+      ],
+      "title": "manager_evaluation дата и время последнего обновления ",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "dateFormat": "YYYY-MM-DD HH:MM:SS +3",
+                "destinationType": "time",
+                "targetField": "last_update_datetime"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [
+    "clickhouse",
+    "db",
+    "DC"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "DC Table Sync Updates",
+  "uid": "ee5foskrnfitcf",
+  "version": 6,
+  "weekStart": ""
+}

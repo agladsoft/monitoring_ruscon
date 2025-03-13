@@ -1277,7 +1277,8 @@
   "schemaVersion": 39,
   "tags": [
     "clickhouse",
-    "db"
+    "db",
+    "rzhd"
   ],
   "templating": {
     "list": []
@@ -1288,7 +1289,7 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Rzhd Analysis",
+  "title": "Rzhd",
   "uid": "ddygu2epwjaiob",
   "version": 39,
   "weekStart": ""
