@@ -3253,7 +3253,7 @@
     ]
   },
   "timezone": "",
-  "title": "NiFi Analysis",
+  "title": "NiFi PrometheusReportingTask Dashboard",
   "uid": "6qFIRLgGz",
   "version": 5,
   "weekStart": ""

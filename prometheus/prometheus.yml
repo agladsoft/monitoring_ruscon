@@ -35,6 +35,9 @@ scrape_configs:
   - job_name: "node-exporter"
     static_configs:
       - targets: ["10.23.4.203:9100"]
+    metrics_path: "/metrics"
+    scheme: http
+    honor_labels: true
   
   - job_name: "nifi_metrics"
     static_configs:
