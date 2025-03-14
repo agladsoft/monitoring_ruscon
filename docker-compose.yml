@@ -15,8 +15,6 @@ services:
       - "--storage.tsdb.path=/prometheus"
       - "--web.console.libraries=/usr/share/prometheus/console_libraries"
       - "--web.console.templates=/usr/share/prometheus/consoles"
-    networks:
-      - db
     configs:
       - source: prometheus_config
         target: /etc/prometheus/prometheus.yml
@@ -41,12 +39,6 @@ services:
       - ./grafana/provisioning:/opt/bitnami/grafana/provisioning
     depends_on:
       - prometheus
-    networks:
-      - db
-
-networks:
-  db:
-    driver: bridge
 
 configs:
   prometheus_config:
