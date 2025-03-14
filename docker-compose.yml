@@ -32,6 +32,7 @@ services:
       - GF_PATHS_PROVISIONING=/opt/bitnami/grafana/provisioning
       - CLICKHOUSE_HOST=${CLICKHOUSE_HOST}
       - CLICKHOUSE_USERNAME=${CLICKHOUSE_USERNAME}
+      - CLICKHOUSE_PASSWORD=${CLICKHOUSE_PASSWORD}
     volumes:
       - ./grafana/data:/opt/bitnami/grafana/data
       - ./grafana/config/grafana.ini:/opt/bitnami/grafana/conf/grafana.ini

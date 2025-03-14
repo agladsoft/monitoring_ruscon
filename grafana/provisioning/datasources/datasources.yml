@@ -21,4 +21,4 @@ datasources:
       username: $CLICKHOUSE_USERNAME
       tlsSkipVerify: false
     secureJsonData:
-      password: 6QVnYsC4iSzz
+      password: $CLICKHOUSE_PASSWORD
