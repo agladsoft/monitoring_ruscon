@@ -1,0 +1,99 @@
+version: "3.9"
+services:
+  prometheus:
+    image: bitnami/prometheus:2.54.0
+    container_name: prometheus
+    restart: always
+    ports:
+      - "9090:9090"
+    environment:
+      - SERVER_IP=${SERVER_IP}
+      - REMOTE_SERVER_IP=${REMOTE_SERVER_IP}
+    command:
+      - "--enable-feature=promql-experimental-functions"
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+    configs:
+      - source: prometheus_config
+        target: /etc/prometheus/prometheus.yml
+
+  grafana:
+    image: bitnami/grafana:11.5.2
+    container_name: grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_INSTALL_PLUGINS=grafana-clickhouse-datasource
+      - GF_PATHS_PROVISIONING=/opt/bitnami/grafana/provisioning
+      - CLICKHOUSE_HOST=${CLICKHOUSE_HOST}
+      - CLICKHOUSE_USERNAME=${CLICKHOUSE_USERNAME}
+      - CLICKHOUSE_PASSWORD=${CLICKHOUSE_PASSWORD}
+    volumes:
+      - ./grafana/data:/opt/bitnami/grafana/data
+      - ./grafana/config/grafana.ini:/opt/bitnami/grafana/conf/grafana.ini
+      - ./grafana/dashboards:/opt/bitnami/grafana/dashboards
+      - ./grafana/provisioning:/opt/bitnami/grafana/provisioning
+    depends_on:
+      - prometheus
+
+configs:
+  prometheus_config:
+    content: |
+      global:
+        scrape_interval:     15s
+        evaluation_interval: 15s
+
+      scrape_configs:
+        - job_name: "prometheus"
+          static_configs:
+            - targets: ["prometheus:9090"]
+  
+        - job_name: "clickhouse"
+          static_configs:
+            - targets: ["${SERVER_IP}:9363"]  # замените "localhost" на IP-адрес сервера, если ClickHouse не на локальной машине
+          metrics_path: "/metrics"  # путь, который был настроен для метрик
+          honor_labels: true
+  
+        - job_name: "rabbitmq"
+          static_configs:
+            - targets: ["${SERVER_IP}:15692"]
+          metrics_path: "/metrics"
+          scheme: http
+          honor_labels: true
+  
+        - job_name: 'tracking'
+          static_configs:
+            - targets: ["${REMOTE_SERVER_IP}:8005"]  # Указываем контейнер и порт для сбора метрик
+          metrics_path: "/metrics"
+          scheme: http
+          honor_labels: true
+  
+        - job_name: 'local_python_scripts'
+          static_configs:
+            - targets: ["${REMOTE_SERVER_IP}:8090"]  # Указываем контейнер и порт для сбора метрик
+          metrics_path: "/metrics"
+          scheme: http
+          honor_labels: true
+  
+        - job_name: "cadvisor"
+          static_configs:
+            - targets: ["${SERVER_IP}:8080"]
+  
+        - job_name: "node-exporter"
+          static_configs:
+            - targets: ["${SERVER_IP}:9100"]
+          metrics_path: "/metrics"
+          scheme: http
+          honor_labels: true
+  
+        - job_name: "nifi_metrics"
+          static_configs:
+            - targets: ["${SERVER_IP}:9092"]
+          metrics_path: "/metrics"
+          scheme: http
+          honor_labels: true

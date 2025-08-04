@@ -1,0 +1,9 @@
+.idea
+.vscode
+__pycache__
+grafana/data
+
+# Environment files
+.env
+.env.*
+!.env.example
